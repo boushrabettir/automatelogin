@@ -5,6 +5,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 /**
+ * StudentCanvas holds the users
+ * info for easy access throughout
+ * the verification process
+ */
+class StudentCanvas {}
+
+/**
  * verification verifies user in their canvas course
  */
 export const verification = () => {
