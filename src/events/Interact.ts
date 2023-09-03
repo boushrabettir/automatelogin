@@ -8,10 +8,23 @@ export class Interaction {
     }
 
 
-    public validateInput = (): boolean => {
-        // TODO - Update this!!
+    public validateInput = (): string => {
+        /**
+          Validation of email and CWID?
+          Tuff one here!
+         */
         const csufEmailPattern = /^[a-zA-Z0-9._%+-]+@csu\.fullerton\.edu$/;
-        return true ? (this.cwid.length !== 9 || csufEmailPattern.test(this.email) === false) : false;
+        let response = "";
+
+        if (this.cwid.length !== 9) {
+            response+="- Your **`cwid`** is not length of 9!🥲\n";
+        }
+
+        if (csufEmailPattern.test(this.email) === false) {
+            response+="- Your **`email`** is not valid!😬\n"
+        }
+
+        return response
     }
 
 }

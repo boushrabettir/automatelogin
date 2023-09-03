@@ -5,7 +5,7 @@ import { EmbedBuilder } from "discord.js";
 import { retrieveCatPhoto } from './Utils/Image.js';
 import { User } from './events/User/User.js';
 import { chooseResponse } from './Utils/Text.js';
-
+import { Interaction } from './events/Interact.js';
 export let userInstance: User;
 
 export default {
@@ -54,22 +54,32 @@ export default {
             //   const conditions = [NAME, EMAIL, CWID];
 
               if (EMAIL !== null && CWID !== null) {
-                userInstance = new User(EMAIL, CWID);
-              }
+                let response = new Interaction(EMAIL, CWID).validateInput();
+                if (response) {
+                    const invalidResponseMessage = new EmbedBuilder()
+                        .setAuthor({name: `Uh oh, ${interaction.user.username}! We've run into some problems!☹️`})
+                        .setColor(0x0099FF)
+                        .setDescription(response)
+                        await interaction.reply({embeds: [invalidResponseMessage]});
+                  
+                } else {
+                    userInstance = new User(EMAIL, CWID);
             
-              const catPhotoUrl = await retrieveCatPhoto();
-             
-              const botImbedMessage = new EmbedBuilder()
-                .setAuthor({name: `${interaction.user.username}, you've sucessfully logged in! 🤙`})
-                .setDescription("Give the team a minute or two to process your login! 😀🥸 ")
-                .setColor(0x0099FF)
-                .setImage(catPhotoUrl)
-                .setTimestamp()
-                .setFooter({ text: chooseResponse() })
-                
+                    
+                    const catPhotoUrl = await retrieveCatPhoto();
+                    
+                    const botImbedMessage = new EmbedBuilder()
+                        .setAuthor({name: `${interaction.user.username}, you've sucessfully logged in! 🤙`})
+                        .setDescription("Give the team a minute or two to process your login! 😀🥸 ")
+                        .setColor(0x0099FF)
+                        .setImage(catPhotoUrl)
+                        .setTimestamp()
+                        .setFooter({ text: chooseResponse() })
+                        
 
-                await interaction.reply({embeds: [botImbedMessage]});
-              
+                        await interaction.reply({embeds: [botImbedMessage]});
+                }
+             }
             })
     ],
 
