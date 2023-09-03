@@ -5,7 +5,8 @@ import { EmbedBuilder } from "discord.js";
 import { retrieveCatPhoto } from './Utils/Image.js';
 import { User } from './events/User/User.js';
 import { chooseResponse } from './Utils/Text.js';
-let userInstance: User;
+
+export let userInstance: User;
 
 export default {
     versions: ['^7'], 
@@ -54,7 +55,6 @@ export default {
 
               if (EMAIL !== null && CWID !== null) {
                 userInstance = new User(EMAIL, CWID);
-                console.log(userInstance);
               }
             
               const catPhotoUrl = await retrieveCatPhoto();
@@ -87,4 +87,3 @@ export default {
     onUnload({ reason, client }) {}
 } satisfies RecipleModuleScript;
 
-export { userInstance };

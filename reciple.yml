@@ -1,8 +1,4 @@
-# The bot token
-#   You can directly set the bot token as value or use token from env
-#   To use token from env set the value like this:
-#     token: env:TOKEN
-token: MTE0NzMzMTM3NTYzMzAxODkxMA.GOWuXi.-XZ39Mor5V_DwM6LU-KLJn_IzuRM1dfkU5t_g0
+token: env:TOKEN
 
 # Commands Config
 commands:
