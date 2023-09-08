@@ -37,8 +37,11 @@ const positiveResponses: string[] = [
 ];
   
 
+/**
+ * chooseResponse chooses a random positive
+ * response to add to the embed message
+ */
 export const chooseResponse = (): string => {
-
     let randomIndex = Math.floor(Math.random() * positiveResponses.length);
     return positiveResponses[randomIndex];
 }

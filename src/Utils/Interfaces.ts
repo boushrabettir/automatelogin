@@ -1,22 +1,19 @@
+/**
+ * Course defines the data for
+ * the specific course
+ */
 export interface Course {
     name: string;
 }
 
-export interface Error {
-    env: string;
-}
-
-
-// TODO - Redo
+/**
+ * User is a custom user class holding 
+ * the users unique token
+ */
 export class User {
-    private email: string;
-    private cwid: string;
+    private token: string;
 
-    public constructor(email: string, cwid: string) {
-        this.email = email;
-        this.cwid = cwid;
-    }
+    public constructor(token: string) { this.token = token; }
 
-    public getEmail(): string { return this.email; }
-    public getCwid(): string { return this.cwid; }
+    public getToken(): string { return this.token; }
 }

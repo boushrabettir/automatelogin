@@ -1,14 +1,15 @@
 import { Error } from "./ErrorHandling.js";
 
+/**
+ * retrieveCatPhoto calls a cat api
+ * to retrieve a random cat photo 
+ */
 export const retrieveCatPhoto = async (): Promise<string> => {
 
     try {
         let response = await fetch("https://api.thecatapi.com/v1/images/search?limit=1");
         let data = await response.json();
-        let imgUrl = data[0].url
-        return imgUrl;
-
-
+        return data[0].url
     } catch (err) {
         console.error(err);
         throw err;
@@ -16,6 +17,10 @@ export const retrieveCatPhoto = async (): Promise<string> => {
 
 }   
 
+/**
+ * setEnvVariable throws an error
+ * if any env variables are not set
+ */
 export const setEnvVariable = () => {
     const DISCORD_TOKEN = process.env.TOKEN;
     const CANVAS_TOKEN = process.env.CANVAS_TOKEN;
@@ -25,5 +30,5 @@ export const setEnvVariable = () => {
 
     const determineValidility = finalEnvVariables.every((envVar) => envVar !== undefined);
     
-    if (determineValidility === false) throw new Error().envError();
+    if (determineValidility === false) throw new Error().env();
 }
