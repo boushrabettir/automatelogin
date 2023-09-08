@@ -21,6 +21,11 @@ export default {
                 .setDescription("Place your canvas token here.")
                 .setRequired(true)
                 )
+            .addStringOption(option => 
+                option.setName("temp")
+                .setDescription("Place your classes token here.")
+                .setRequired(true)
+                )
             .setCooldown(10)
             .setExecute(async ({interaction, client}) => {
               const { options } = interaction;
