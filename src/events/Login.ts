@@ -1,5 +1,5 @@
 import { AnyCommandBuilder, SlashCommandBuilder } from "reciple";
-import { User } from "./User/User.js";
+import { User } from "../Utils/Interfaces.js";
 import { EmbedBuilder } from "discord.js";
 
 // TODO place in index.ts

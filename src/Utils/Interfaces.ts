@@ -1,3 +1,13 @@
+export interface Course {
+    name: string;
+}
+
+export interface Error {
+    env: string;
+}
+
+
+// TODO - Redo
 export class User {
     private email: string;
     private cwid: string;
