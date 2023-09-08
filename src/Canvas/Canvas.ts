@@ -1,7 +1,8 @@
 import { userInstance } from "../Index.js";
-import { writeFileSync } from "fs";
 import { setEnvVariable } from "../Utils/Utils.js";
 import { Course } from "../Utils/Interfaces.js";
+
+// TODO - Create OAuth part lol how did i forget
 
 const connectToCanvasLm = async (): Promise<Course[]> => {
 
@@ -39,26 +40,49 @@ const arrayToSet = (elementArray: string[] ): Set<any> => {
     return processedSet;
 }
 
-export const determineCourses = async () => {
-    setEnvVariable();
+const findMatch = (course: string): string => {
 
-    const LIST_OF_COURSES: Course[] = await connectToCanvasLm();
     const COURSE_NAMES_JSON: string[] = JSON.parse(process.env.COURSE_NAMES || "[]");
     const CURR_SEMESTER_CLASSES = arrayToSet(COURSE_NAMES_JSON);
-     // COURSE_NAMES=["CPSC 253-08", "CPSC 131-06", "CPSC 386-03"]
+    // COURSE_NAMES=["CPSC 253-08", "CPSC 131-06", "CPSC 386-03"]
 
+    const TEMP = [/253-08/, /131-06/, /386-03/];
+
+    let foundCourse: string = "";
+
+    for (let avaliableCourse of TEMP) {
+        if (avaliableCourse.test(course)) {
+            foundCourse = avaliableCourse.toString();
+            break;
+        }
+    }
+
+    return foundCourse;
+}
+
+/**
+ * determineCourses finds all the users valid courses being
+ * taken for the specific professor for the discord.
+ */
+export const determineCourses = async (): Promise<string[]> => {
+    setEnvVariable();
+
+    // TODO -
+    const LIST_OF_COURSES: Course[] = await connectToCanvasLm();
+    
     let regexPattern = /CPSC/;
+
     let usersCurrentCourses: string[] = [];
 
     for (let currentCourse of LIST_OF_COURSES)  {
         let courseName: any = currentCourse.name;
         const isMatch = regexPattern.test(courseName);
-        // TODO
         if (isMatch){
-            const numberPattern = /\d+/g;
-            const numbers = courseName.match(numberPattern);
-            console.log(numbers)
+            const foundCourse = findMatch(courseName);
+            if (foundCourse) usersCurrentCourses.push(courseName);
         };
     }
+
+    return usersCurrentCourses;
     
 }
