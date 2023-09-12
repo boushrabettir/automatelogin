@@ -23,12 +23,12 @@ export const retrieveCatPhoto = async (): Promise<string> => {
  */
 export const setEnvVariable = () => {
     const DISCORD_TOKEN = process.env.TOKEN;
-    const CANVAS_TOKEN = process.env.CANVAS_TOKEN;
-    const COURSES = process.env.COURSE_NAMES;
+    // const COURSES = process.env.COURSE_NAMES;
+    const TEMP = process.env.TEMP;
 
-    const finalEnvVariables = [DISCORD_TOKEN, CANVAS_TOKEN, COURSES]
-
+    const finalEnvVariables = [DISCORD_TOKEN, TEMP]
     const determineValidility = finalEnvVariables.every((envVar) => envVar !== undefined);
     
     if (determineValidility === false) throw new Error().env();
 }
+
