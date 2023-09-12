@@ -42,7 +42,7 @@ const createRole = async (role: string, id: string, interaction: any, channelId:
 
     const newRole = await interaction.guild?.roles.create({
         name: roleName,
-        color: "#0080FF",
+        color: `#${Math.floor(Math.random()*16777215).toString(16)}`,
         permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
     });
     
@@ -62,9 +62,13 @@ export const findRole = async (role: string, id:string, interaction: any, channe
     const doesRoleExist = interaction.guild?.roles.cache.find((r: any) => r.name === `${role}-${id}`);
     let roleId: string = "";
 
+    
     if (!doesRoleExist) {
         roleId = await createRole(role, id, interaction, channelId);
+    } else {
+        roleId = doesRoleExist.id;
     }
-    
+
+
     return roleId;
 }

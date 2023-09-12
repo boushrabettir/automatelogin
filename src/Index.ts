@@ -36,18 +36,16 @@ export default {
                 const TOKEN = options.getString("token");
                 const SECTION = options.getString("section");
                
-                  setEnvVariable();
+                setEnvVariable();
                 
                 const TEMP = JSON.parse(process.env.TEMP || '{"token": []}');
-            
-                if (TOKEN !== null && SECTION) {
-                    console.log("CALLING FIND ROLE", TEMP[TOKEN]);
-                    // new User(TOKEN);
-                    
-                    let newRoleId = await findRole(TEMP[TOKEN][1], SECTION, interaction, TEMP[TOKEN][0]);
-                    
-                    const member = await interaction.guild?.members.fetch(user);
                 
+                if (TOKEN !== null && SECTION) {
+                    // new User(TOKEN);
+                  
+                    let newRoleId = await findRole(TEMP[TOKEN][1], SECTION, interaction, TEMP[TOKEN][0]);
+                    const member = await interaction.guild?.members.fetch(user);
+                 
                     if (!member?.roles.cache.has(newRoleId)) {
                         await member?.roles.add(newRoleId);
                     }
