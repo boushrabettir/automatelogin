@@ -5,7 +5,7 @@ Facilitate automated role assignments for your current semester or quarter cours
 
 ## Features
 - Semester/quarterly class id management for your unique class(es) to access Discord channels.
-- Automatic removal of previous semester/quarter students and renewal of class id' through a workflow using Github Actions.
+- Automatic removal of previous semester/quarter students and renewal of class id's through a workflow using Github Actions.
 - Convenient grouping of students into specific channels for the class they are registered in without manual effort.
 
 ### Developer Usage
