@@ -1,4 +1,6 @@
+import { PermissionsBitField, Role } from "discord.js";
 import { Error } from "./ErrorHandling.js";
+import { Permissions, PermissionFlags } from "discord.js";
 
 /**
  * retrieveCatPhoto calls a cat api
@@ -32,3 +34,37 @@ export const setEnvVariable = () => {
     if (determineValidility === false) throw new Error().env();
 }
 
+
+const createRole = async (role: string, id: string, interaction: any, channelId: string) => {
+
+
+    const roleName = `${role}-${id}`; 
+
+    const newRole = await interaction.guild?.roles.create({
+        name: roleName,
+        color: "#0080FF",
+        permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
+    });
+    
+
+    // await interaction.guild?.channels.cache.get(channelId)?.permissonOverwrites.edit(role, {
+    //     VIEW_CHANNEL: true,
+    // });
+
+ 
+    await interaction.guild?.roles.fetch();
+    return newRole.id;
+}
+
+
+export const findRole = async (role: string, id:string, interaction: any, channelId: string): Promise<any> => {
+
+    const doesRoleExist = interaction.guild?.roles.cache.find((r: any) => r.name === `${role}-${id}`);
+    let roleId: string = "";
+
+    if (!doesRoleExist) {
+        roleId = await createRole(role, id, interaction, channelId);
+    }
+    
+    return roleId;
+}

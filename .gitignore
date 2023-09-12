@@ -135,3 +135,5 @@ modules
 node_modules
 modules
 log
+
+.env
