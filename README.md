@@ -1,5 +1,6 @@
 ## AutomateLogin 
 *[wip] bot to automate login to view channels for prof. mccarthy*
+
 Facilitate automated role assignments for your current semester or quarter courses.
 
 ## Features
