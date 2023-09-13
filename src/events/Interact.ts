@@ -3,7 +3,9 @@ export class Interact {
 
     public constructor(token: string) { this.token = token; }
 
-    public validInput = (): string => {return "";}
+    public validInput = (classInfoTable: object, userToken: string, userSection: string): string => {
+        return "";
+    }
     public determineCourse = (): string[] => {return [""];}
     public assignRole = () => {}
 };

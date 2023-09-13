@@ -1,5 +1,7 @@
-import { PermissionsBitField, Role } from "discord.js";
+import { PermissionsBitField } from "discord.js";
 import { Error } from "./ErrorHandling.js";
+import fs from 'fs';
+
 
 /**
  * retrieveCatPhoto calls a cat api
@@ -33,7 +35,7 @@ export const setEnvVariable = () => {
 }
 
 
-const createRole = async (role: string, id: string, interaction: any, channelId: string, classType: string) => {
+const createRole = async (role: string, id: string, interaction: any, classType: string) => {
     
     console.log(classType, role, id)
     const roleName = `${classType}${role}-${id}`; 
@@ -49,13 +51,14 @@ const createRole = async (role: string, id: string, interaction: any, channelId:
 }
 
 
-export const findRole = async (role: string, id:string, interaction: any, channelId: string, classType: string): Promise<string> => {
+export const findRole = async (role: string, id:string, interaction: any, classType: string): Promise<string> => {
 
     const doesRoleExist = interaction.guild?.roles.cache.find((r: any) => r.name === `${classType}${role}-${id}`);
     let roleId: string = "";
     
+
     if (!doesRoleExist) {
-        roleId = await createRole(role, id, interaction, channelId, classType);
+        roleId = await createRole(role, id, interaction, classType);
     } else {
         roleId = doesRoleExist.id;
     }
@@ -63,15 +66,28 @@ export const findRole = async (role: string, id:string, interaction: any, channe
     return roleId;
 }
 
-const createChannel = async (channelName: string, interaction: any, classType: string, roleId: string) => {
+
+export const giveChannelAccess = async (roleId: any, interaction: any, channelName: string) => {
+    console.log(roleId, channelName);
+
+    const channel = interaction.guild?.channels.cache.find((c: any) => c.name == channelName);
+    console.log(channel);
+    
+    if (channel) {
+        await channel.permissionOverwrites.create(roleId, {permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]})
+
+
+    }
+
+
+}
+
+
+const createChannel = async (channelName: string, interaction: any, classType: string) => {
 
     const newChannel = await interaction.guild?.channels.create({
         name: `${classType}-${channelName}`,
         permissionOverwrites: [
-            {
-                id: roleId,
-                permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel],
-            },
             {
                 id: interaction.guild?.roles.everyone,
                 deny: [PermissionsBitField.Flags.ViewChannel]
@@ -84,16 +100,27 @@ const createChannel = async (channelName: string, interaction: any, classType: s
     return newChannel.id;
 }
 
-export const findChannel = async (role: string, interaction: any, classType: string, roleId: string) => {
-
+export const findChannel = async (role: string, interaction: any, classType: string) => {
+    console.log(role);
     const doesChannelExist = interaction.guild?.channels.cache.find((c: any) => c.name === `${classType}-${role}`);
     
     let channelId: string = "";
 
     if (!doesChannelExist) {
-        channelId = await createChannel(role, interaction, classType, roleId);
+        channelId = await createChannel(role, interaction, classType);
     } else {
         channelId = doesChannelExist.id;
     }
 
+}
+
+
+export const retrieveData = (): any => {
+    try {
+        const jsonData = JSON.parse(fs.readFileSync("src/potato.json", "utf-8"));
+        return jsonData;
+    } catch (err) {
+        console.error("Error reading 'potato.json':", err);
+        throw err;
+    }
 }

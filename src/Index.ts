@@ -1,16 +1,9 @@
 import { RecipleModuleScript, SlashCommandBuilder } from 'reciple';
 import { EmbedBuilder } from "discord.js";
 import { retrieveCatPhoto } from './Utils/Utils.js';
-import { User } from './Utils/Interfaces.js';
 import { chooseResponse } from './Utils/Text.js';
 import { Interact } from './events/Interact.js';
-import { determineCourses } from './Canvas/Canvas.js';
-import { setEnvVariable, findRole, findChannel } from './Utils/Utils.js';
-export let userInstance: User;
-
-interface Role {
-    role: string;
-}
+import { setEnvVariable, findRole, findChannel, retrieveData, giveChannelAccess } from './Utils/Utils.js';
 
 export default {
     versions: ['^7'], 
@@ -37,30 +30,30 @@ export default {
         
                 setEnvVariable();
                 
-                const CLASS_DATA = JSON.parse(process.env.CLASS_DATA || '{"token": []}');
-                const CLASS_TYPE = process.env.CLASS_TYPE;
+                let CLASS_DATA = retrieveData();
+ 
+                if (TOKEN !== null && CLASS_DATA && TOKEN in CLASS_DATA["CLASS_DATA"] && SECTION) {
+                    
+                    await findChannel(CLASS_DATA["CLASS_DATA"][TOKEN]["classID"], interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
 
-                if (TOKEN !== null && TOKEN in CLASS_DATA && SECTION && CLASS_TYPE) {
-                    // new User(TOKEN);
-                    
-                    console.log(CLASS_TYPE);
-                    let newRoleId = await findRole(CLASS_DATA[TOKEN][1], SECTION, interaction, CLASS_DATA[TOKEN][0], CLASS_TYPE);
+                    let newRoleId = await findRole(CLASS_DATA["CLASS_DATA"][TOKEN]["classID"], SECTION, interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
                     const member = await interaction.guild?.members.fetch(user);
-                    let channelId = await findChannel(CLASS_DATA[TOKEN][1], interaction, CLASS_TYPE, newRoleId);
-                    
+   
+                    giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]["classID"]}`)
+
                     if (!member?.roles.cache.has(newRoleId)) {
                         await member?.roles.add(newRoleId);
                     }
                     
                     const botImbedMessage = new EmbedBuilder()
-                        .setAuthor({name: `${interaction.user.username}, you've sucessfully logged in! 🤙`})
-                        .setDescription("### Please wait two to three minutes to have access to your courses! 😀\nMeanwhile, enjoy this cat photo below!😸")
+                        .setAuthor({name: `${interaction.user.username}, you've successfully registered! 💙🧡🤍`})
+                        .setDescription(`You have been given access to **${(CLASS_DATA["CLASS_TYPE"]["type"]).toUpperCase()}-${CLASS_DATA["CLASS_DATA"][TOKEN]["classID"]}!**\n*If there are any problems, please contact your professor.*`)
                         .setColor(0x0099FF)
                         .setImage(await retrieveCatPhoto())
                         .setTimestamp()
                         .setFooter({ text: chooseResponse() });
 
-                        await interaction.reply({embeds: [botImbedMessage]});
+                    await interaction.reply({embeds: [botImbedMessage]});
                 };
             }),
             
