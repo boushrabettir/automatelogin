@@ -5,7 +5,7 @@ import { User } from './Utils/Interfaces.js';
 import { chooseResponse } from './Utils/Text.js';
 import { Interact } from './events/Interact.js';
 import { determineCourses } from './Canvas/Canvas.js';
-import { setEnvVariable, findRole } from './Utils/Utils.js';
+import { setEnvVariable, findRole, findChannel } from './Utils/Utils.js';
 export let userInstance: User;
 
 interface Role {
@@ -32,20 +32,22 @@ export default {
             .setCooldown(10)
             .setExecute(async ({interaction, client}) => {     
                 const { options, user } = interaction;
-
                 const TOKEN = options.getString("token");
                 const SECTION = options.getString("section");
-               
+        
                 setEnvVariable();
                 
-                const TEMP = JSON.parse(process.env.TEMP || '{"token": []}');
-                
-                if (TOKEN !== null && SECTION) {
+                const CLASS_DATA = JSON.parse(process.env.CLASS_DATA || '{"token": []}');
+                const CLASS_TYPE = process.env.CLASS_TYPE;
+
+                if (TOKEN !== null && TOKEN in CLASS_DATA && SECTION && CLASS_TYPE) {
                     // new User(TOKEN);
-                  
-                    let newRoleId = await findRole(TEMP[TOKEN][1], SECTION, interaction, TEMP[TOKEN][0]);
+                    
+                    console.log(CLASS_TYPE);
+                    let newRoleId = await findRole(CLASS_DATA[TOKEN][1], SECTION, interaction, CLASS_DATA[TOKEN][0], CLASS_TYPE);
                     const member = await interaction.guild?.members.fetch(user);
-                 
+                    let channelId = await findChannel(CLASS_DATA[TOKEN][1], interaction, CLASS_TYPE, newRoleId);
+                    
                     if (!member?.roles.cache.has(newRoleId)) {
                         await member?.roles.add(newRoleId);
                     }
@@ -67,7 +69,7 @@ export default {
 
     // Module resolved logic here (Bot not logged in)
     onStart(client) {
-        const CHANNEL_ID = JSON.parse(process.env.DISCORD_TOKEN || "");
+        const CHANNEL_ID = JSON.parse(process.env.CLASS_DATA || '{"token": []}')[2];
         const channel = client.channels.cache.get(CHANNEL_ID);
         console.log(channel);
         let message: string = "# Welcome to the main hub of your classes!\n **To Get Started**\n- `/register [TOKEN] [SECTION]` (E.g. /register ABC123 01)\n If you do NOT have your token, please contact your teacher to retrieve it."

@@ -1,7 +1,7 @@
 import { setEnvVariable } from "../Utils/Utils.js";
 
 const stringCombination = (): string => {
-    let stringValue = (Math.random() + 1).toString(36).substring(7).toUpperCase()
+    let stringValue = (Math.random() + 1).toString(36).substring(7).toUpperCase();
     return stringValue;
 }
 
@@ -17,9 +17,9 @@ const numberCombination = (): string => {
 export const setNewKeys = () => {
     setEnvVariable();
 
-    let TEMP = JSON.parse(process.env.TEMP || "{}");
+    let CLASS_DATA = JSON.parse(process.env.CLASS_DATA || "{}");
     
-    Object.entries(TEMP).forEach(
+    Object.entries(CLASS_DATA).forEach(
       ([key, value]) => {
         let newCombination = `${stringCombination()}${numberCombination()}`;
         console.log(key, value, newCombination);
