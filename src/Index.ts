@@ -4,6 +4,7 @@ import { retrieveCatPhoto } from './Utils/Utils.js';
 import { chooseResponse } from './Utils/Text.js';
 import { Interact } from './events/Interact.js';
 import { setEnvVariable, findRole, findChannel, retrieveData, giveChannelAccess } from './Utils/Utils.js';
+import { setNewKeys } from './Flow/Flow.js';
 
 export default {
     versions: ['^7'], 
@@ -27,8 +28,8 @@ export default {
                 const { options, user } = interaction;
                 const TOKEN = options.getString("token");
                 const SECTION = options.getString("section");
-        
-                setEnvVariable();
+                setNewKeys();
+                // setEnvVariable();
                 
                 let CLASS_DATA = retrieveData();
  
@@ -54,6 +55,8 @@ export default {
                         .setFooter({ text: chooseResponse() });
 
                     await interaction.reply({embeds: [botImbedMessage]});
+
+                    
                 };
             }),
             

@@ -25,13 +25,13 @@ export const retrieveCatPhoto = async (): Promise<string> => {
  * if any env variables are not set
  */
 export const setEnvVariable = () => {
-    const DISCORD_TOKEN = process.env.TOKEN;
-    const CLASS_DATA = process.env.CLASS_DATA;
+    // const DISCORD_TOKEN = process.env.TOKEN;
+    // const CLASS_DATA = process.env.CLASS_DATA;
 
-    const finalEnvVariables = [DISCORD_TOKEN, CLASS_DATA]
-    const determineValidility = finalEnvVariables.every((envVar) => envVar !== undefined);
+    // const finalEnvVariables = [DISCORD_TOKEN, CLASS_DATA]
+    // const determineValidility = finalEnvVariables.every((envVar) => envVar !== undefined);
     
-    if (determineValidility === false) throw new Error().env();
+    // if (determineValidility === false) throw new Error().env();
 }
 
 
@@ -75,7 +75,6 @@ export const giveChannelAccess = async (roleId: any, interaction: any, channelNa
     
     if (channel) {
         await channel.permissionOverwrites.create(roleId, {permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]})
-
 
     }
 
