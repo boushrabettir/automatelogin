@@ -28,7 +28,6 @@ export default {
                 const { options, user } = interaction;
                 const TOKEN = options.getString("token");
                 const SECTION = options.getString("section");
-                setNewKeys();
                 // setEnvVariable();
                 
                 let CLASS_DATA = retrieveData();
@@ -48,14 +47,13 @@ export default {
                     
                     const botImbedMessage = new EmbedBuilder()
                         .setAuthor({name: `${interaction.user.username}, you've successfully registered! 💙🧡🤍`})
-                        .setDescription(`You have been given access to **${(CLASS_DATA["CLASS_TYPE"]["type"]).toUpperCase()}-${CLASS_DATA["CLASS_DATA"][TOKEN]["classID"]}!**\n*If there are any problems, please contact your professor.*`)
+                        .setDescription(`You have been given access to **${(CLASS_DATA["CLASS_TYPE"]["type"]).toUpperCase()}-${CLASS_DATA["CLASS_DATA"][TOKEN]["classID"].toUpperCase()}!**\n*If there are any problems, please contact your professor.*`)
                         .setColor(0x0099FF)
                         .setImage(await retrieveCatPhoto())
                         .setTimestamp()
                         .setFooter({ text: chooseResponse() });
 
                     await interaction.reply({embeds: [botImbedMessage]});
-
                     
                 };
             }),

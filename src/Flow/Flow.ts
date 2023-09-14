@@ -1,4 +1,5 @@
 import { retrieveData } from "../Utils/Utils.js";
+import fs from "fs";
 
 const stringCombination = (): string => {
     let stringValue = (Math.random() + 1).toString(36).substring(7).toUpperCase();
@@ -11,9 +12,8 @@ const numberCombination = (): string => {
 }
 
 const renameKeys = (currObject: any, newKey: string, oldKey: any) => {
-  console.log(currObject, newKey, oldKey);
-  currObject[newKey] = currObject[oldKey[0]];
-  delete currObject[oldKey[0]]
+  currObject[newKey] = currObject[oldKey];
+  delete currObject[oldKey]
 }
 /**
  * setNewKeys sets a new combination key
@@ -21,16 +21,17 @@ const renameKeys = (currObject: any, newKey: string, oldKey: any) => {
  */
 export const setNewKeys = () => {
 
-    let CLASS_DATA = [retrieveData()["CLASS_DATA"]];
+    
+    let CLASS_DATA = retrieveData();
+
     let newKey = `${stringCombination()}${numberCombination()}`;
   
-    CLASS_DATA.forEach((obj: any)  =>  renameKeys(obj, newKey, Object.keys(obj)));
-    // Object.entries(CLASS_DATA).forEach(
-    //   ([key, value]) => {
-    //     let newKey = `${stringCombination()}${numberCombination()}`;
-    //     CLASS_DATA["CLASS_DATA"][newKey] = value;
-    //     delete CLASS_DATA["CLASS_DATA"][key];
-    //   }
-    // );
+    for (const oldKey in CLASS_DATA.CLASS_DATA) {
+        renameKeys(CLASS_DATA.CLASS_DATA, newKey, oldKey);
+    }
+
+
+    fs.writeFileSync('src/potato.json', JSON.stringify(CLASS_DATA));
+
     console.log("New class data", CLASS_DATA);
 }

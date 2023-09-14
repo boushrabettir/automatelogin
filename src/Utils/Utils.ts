@@ -25,13 +25,9 @@ export const retrieveCatPhoto = async (): Promise<string> => {
  * if any env variables are not set
  */
 export const setEnvVariable = () => {
-    // const DISCORD_TOKEN = process.env.TOKEN;
-    // const CLASS_DATA = process.env.CLASS_DATA;
+    const DISCORD_TOKEN = process.env.TOKEN;
 
-    // const finalEnvVariables = [DISCORD_TOKEN, CLASS_DATA]
-    // const determineValidility = finalEnvVariables.every((envVar) => envVar !== undefined);
-    
-    // if (determineValidility === false) throw new Error().env();
+    if (DISCORD_TOKEN === null) throw new Error().env();
 }
 
 
@@ -81,7 +77,6 @@ export const giveChannelAccess = async (roleId: any, interaction: any, channelNa
 
 }
 
-
 const createChannel = async (channelName: string, interaction: any, classType: string) => {
 
     const newChannel = await interaction.guild?.channels.create({
@@ -100,7 +95,7 @@ const createChannel = async (channelName: string, interaction: any, classType: s
 }
 
 export const findChannel = async (role: string, interaction: any, classType: string) => {
-    console.log(role);
+    console.log(`${classType}-${role}`);
     const doesChannelExist = interaction.guild?.channels.cache.find((c: any) => c.name === `${classType}-${role}`);
     
     let channelId: string = "";

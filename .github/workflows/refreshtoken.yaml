@@ -1,0 +1,24 @@
+name: Refresh Access Tokens
+
+on:
+  schedule:
+    - cron: "0 10 20 8 *"
+    - cron: "0 10 10 1 *"
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Run script
+        run: npm run dev
+
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
