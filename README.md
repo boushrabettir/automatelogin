@@ -9,10 +9,17 @@ Facilitate automated role assignments for your current semester or quarter cours
 - Convenient grouping of students into specific channels for the class they are registered in without manual effort.
 
 ## Developer Usage
-```foo```
+1. Clone this repository.
+2. Information to create a bot and invite it to your server can be found [here.](https://discordjs.guide/preparations/setting-up-a-bot-application.html#creating-your-bot)
+3.  Place your [bot token](https://www.writebots.com/discord-bot-token/) in a `.env` file. Follow `.env.example`.
+
+... more
 
 ## User Usage
 - Type in the **main** channel `/register [CLASS_ID] [SECTION_NUMBER]`
+
+## Example Response
+![image](https://github.com/boushrabettir/automatelogin/assets/116927138/9e965416-9c18-4adf-8c07-1c1a2e60f30d)
 
 ---
 Made with 💙🧡🤍 by [@boushrabettir](https://github.com/boushrabettir)
