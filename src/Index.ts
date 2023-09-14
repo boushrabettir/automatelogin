@@ -6,6 +6,7 @@ import { Interact } from './events/Interact.js';
 import { setEnvVariable, findRole, findChannel, retrieveData, giveChannelAccess } from './Utils/Utils.js';
 import { setNewKeys } from './Flow/Flow.js';
 
+
 export default {
     versions: ['^7'], 
     
@@ -55,7 +56,15 @@ export default {
 
                     await interaction.reply({embeds: [botImbedMessage]});
                     
-                };
+                } else {
+                    const botImbedMessage = new EmbedBuilder()
+                    .setAuthor({name: `${interaction.user.username}, you've run into a problem! 🧐`})
+                    .setDescription(`Your **TOKEN** is not valid. Please contact your teacher if the issue persists. 😎`)
+                    .setColor(0xCC0000)
+                    .setTimestamp()
+
+                    await interaction.reply({embeds: [botImbedMessage]});   
+                }
             }),
             
     ],

@@ -111,7 +111,7 @@ export const findChannel = async (role: string, interaction: any, classType: str
 
 export const retrieveData = (): any => {
     try {
-        const jsonData = JSON.parse(fs.readFileSync("src/potato.json", "utf-8"));
+        const jsonData = JSON.parse(fs.readFileSync("src/data.json", "utf-8"));
         return jsonData;
     } catch (err) {
         console.error("Error reading 'potato.json':", err);

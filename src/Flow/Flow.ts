@@ -21,7 +21,6 @@ const renameKeys = (currObject: any, newKey: string, oldKey: any) => {
  */
 export const setNewKeys = () => {
 
-    
     let CLASS_DATA = retrieveData();
 
     let newKey = `${stringCombination()}${numberCombination()}`;
@@ -30,8 +29,7 @@ export const setNewKeys = () => {
         renameKeys(CLASS_DATA.CLASS_DATA, newKey, oldKey);
     }
 
-
-    fs.writeFileSync('src/potato.json', JSON.stringify(CLASS_DATA));
+    fs.writeFileSync('src/data.json', JSON.stringify(CLASS_DATA));
 
     console.log("New class data", CLASS_DATA);
 }
