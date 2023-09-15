@@ -3,8 +3,7 @@ import { EmbedBuilder } from "discord.js";
 import { retrieveCatPhoto } from './Utils/Utils.js';
 import { chooseResponse } from './Utils/Text.js';
 import { Interact } from './events/Interact.js';
-import { setEnvVariable, findRole, findChannel, retrieveData, giveChannelAccess } from './Utils/Utils.js';
-import { setNewKeys } from './Flow/Flow.js';
+import { setEnvVariable, retrieveData } from './Utils/Utils.js';
 
 
 export default {
@@ -29,18 +28,19 @@ export default {
                 const { options, user } = interaction;
                 const TOKEN = options.getString("token");
                 const SECTION = options.getString("section");
-                // setEnvVariable();
+
+                setEnvVariable();
                 
                 let CLASS_DATA = retrieveData();
  
-                if (TOKEN !== null && CLASS_DATA && TOKEN in CLASS_DATA["CLASS_DATA"] && SECTION) {
+                if (TOKEN  && SECTION && CLASS_DATA && TOKEN in CLASS_DATA["CLASS_DATA"]) {
                     
-                    await findChannel(CLASS_DATA["CLASS_DATA"][TOKEN]["classID"], interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
+                    await new Interact().findChannel(CLASS_DATA["CLASS_DATA"][TOKEN]["classID"], interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
 
-                    let newRoleId = await findRole(CLASS_DATA["CLASS_DATA"][TOKEN]["classID"], SECTION, interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
+                    let newRoleId = await new Interact().findRole(CLASS_DATA["CLASS_DATA"][TOKEN]["classID"], SECTION, interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
                     const member = await interaction.guild?.members.fetch(user);
    
-                    giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]["classID"]}`)
+                    new Interact().giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]["classID"]}`)
 
                     if (!member?.roles.cache.has(newRoleId)) {
                         await member?.roles.add(newRoleId);
@@ -61,7 +61,7 @@ export default {
                     .setAuthor({name: `${interaction.user.username}, you've run into a problem! 🧐`})
                     .setDescription(`Your **TOKEN** is not valid. Please contact your teacher if the issue persists. 😎`)
                     .setColor(0xCC0000)
-                    .setTimestamp()
+                    .setTimestamp();
 
                     await interaction.reply({embeds: [botImbedMessage]});   
                 }
