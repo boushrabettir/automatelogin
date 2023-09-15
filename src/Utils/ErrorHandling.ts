@@ -27,7 +27,7 @@ export class Error {
      * @returns The custom error for course type
      */
     public addCourseType(): string {
-        return "You must **add the course type** first before adding a course! Use the command `/add-type [COURSE_TYPE]` first before trying again!";
+        return "You must **add the course type** first before adding a course!\nUse the command **`/add-type [COURSE_TYPE]`** first before trying again!";
     }
 
     /**
