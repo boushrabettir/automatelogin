@@ -10,6 +10,95 @@ export default {
     versions: ['^7'], 
     
     commands:  [
+
+        new SlashCommandBuilder()
+            .setName("add-type")
+            .setDescription("Set your class type.")
+            .addStringOption(option => 
+                option.setName("type")
+                .setDescription("The course type. E.g. 'cpsc'")
+                .setRequired(true)
+                )
+            .setExecute(async ({interaction, client}) => {
+                const { options, user } = interaction;
+                
+                let botImbedMessage: EmbedBuilder = new EmbedBuilder();
+                
+                const COURSE_NUMBER = options.getString("type");
+
+                const prof = "1152071882305179678";
+                
+                const member = await interaction.guild?.members.fetch(user);
+
+                if (member?.roles.cache.has(prof)) {
+
+                    botImbedMessage = new EmbedBuilder()
+                    .setAuthor({name: `${interaction.user.username}, you've successfully added the course type!`})
+                    .setDescription(`You added the course type: **${COURSE_NUMBER?.toUpperCase()}**`)
+                    .setColor(0x0099FF)
+                    .setTimestamp();
+
+                } else {
+                    botImbedMessage = new EmbedBuilder()
+                    .setAuthor({name: `${interaction.user.username}, you're not an admin!`})
+                    .setDescription(new Error().incorrectRole())
+                    .setColor(0xCC0000)
+                    .setTimestamp();         
+                }
+
+                await interaction.reply({embeds: [botImbedMessage]});   
+            }),
+
+
+        new SlashCommandBuilder()
+            .setName("add-course")
+            .setDescription("Add your new course.")
+            .addStringOption(option => 
+                option.setName("course")
+                .setDescription("The course number excluding section number - E.g. '351'")
+                .setRequired(true)
+                )
+        .setExecute(async ({interaction, client}) => {
+            const { options, user } = interaction;
+            
+            let botImbedMessage: EmbedBuilder = new EmbedBuilder();
+            // IF COURSE TYPE DOESNT EXIST THROW ERROR!!
+
+            const COURSE_NUMBER = options.getString("course");
+            const COURSE_DATA = retrieveData();
+
+            const prof = "1152071882305179678";
+            
+            const member = await interaction.guild?.members.fetch(user);
+
+            if (member?.roles.cache.has(prof)) {
+                
+                if (COURSE_DATA && COURSE_DATA["CLASS_TYPE"]["type"]) {
+                    botImbedMessage = new EmbedBuilder()
+                    .setAuthor({name: `${interaction.user.username}, you've successfully added a new course!`})
+                    .setDescription(`You added the course: **${COURSE_NUMBER}**`)
+                    .setColor(0x0099FF)
+                    .setTimestamp();
+                }  else {
+                    botImbedMessage = new EmbedBuilder()
+                    .setAuthor({name: `${interaction.user.username}, you've run into a problem!`})
+                    .setDescription(new Error().addCourseType())
+                    .setColor(0x0099FF)
+                    .setTimestamp();
+                }   
+            } else {
+                botImbedMessage = new EmbedBuilder()
+                .setAuthor({name: `${interaction.user.username}, you're not an admin!`})
+                .setDescription(new Error().incorrectRole())
+                .setColor(0xCC0000)
+                .setTimestamp();   
+            }
+
+            await interaction.reply({embeds: [botImbedMessage]});   
+
+        }),
+
+
         new SlashCommandBuilder()
             .setName("register")
             .setDescription("Register to see your courses channels.")
