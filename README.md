@@ -19,8 +19,10 @@ Facilitate automated role assignments for your current semester or quarter cours
 - Type in the **main** channel `/register [CLASS_ID] [SECTION_NUMBER]`
 
 ## Example Response
-
-![image](https://github.com/boushrabettir/automatelogin/assets/116927138/9e965416-9c18-4adf-8c07-1c1a2e60f30d)
+<div>
+  <img src="https://github.com/boushrabettir/automatelogin/assets/116927138/64698c05-382e-4ed0-b8ff-2c6eb003dcff" alt="Image 1" width="50%" />
+  <img src="https://github.com/boushrabettir/automatelogin/assets/116927138/9e965416-9c18-4adf-8c07-1c1a2e60f30d" alt="Image 2" width="50%" />
+</div>
 
 ---
 Made with 💙🧡🤍 by [@boushrabettir](https://github.com/boushrabettir)
