@@ -1,5 +1,5 @@
 import { RecipleModuleScript, SlashCommandBuilder } from 'reciple';
-import { EmbedBuilder } from "discord.js";
+import { EmbedBuilder, MessageComponentBuilder } from "discord.js";
 import { retrieveCatPhoto } from './Utils/Utils.js';
 import { chooseResponse } from './Utils/Text.js';
 import { Interact } from './events/Interact.js';
@@ -46,7 +46,7 @@ export default {
                     .setTimestamp();         
                 }
 
-                await interaction.reply({embeds: [botImbedMessage]});   
+                await interaction.reply({ content: `<@${user.id}>`, embeds: [botImbedMessage]});   
             }),
 
 
@@ -94,7 +94,7 @@ export default {
                 .setTimestamp();   
             }
 
-            await interaction.reply({embeds: [botImbedMessage]});   
+            await interaction.reply({ content: `<@${user.id}>`, embeds: [botImbedMessage]});   
 
         }),
 
@@ -118,6 +118,8 @@ export default {
                 const TOKEN = options.getString("token");
                 const SECTION = options.getString("section");
 
+                let botImbedMessage: EmbedBuilder = new EmbedBuilder();
+
                 setEnvVariable();
                 
                 let CLASS_DATA = retrieveData();
@@ -135,25 +137,23 @@ export default {
                         await member?.roles.add(newRoleId);
                     }
                     
-                    const botImbedMessage = new EmbedBuilder()
+                    botImbedMessage = new EmbedBuilder()
                         .setAuthor({name: `${interaction.user.username}, you've successfully registered! 💙🧡🤍`})
                         .setDescription(`You have been given access to **${(CLASS_DATA["CLASS_TYPE"]["type"]).toUpperCase()}-${CLASS_DATA["CLASS_DATA"][TOKEN]["classID"].toUpperCase()}!**\n*If there are any problems, please contact your professor.*`)
                         .setColor(0x0099FF)
                         .setImage(await retrieveCatPhoto())
                         .setTimestamp()
                         .setFooter({ text: chooseResponse() });
-
-                    await interaction.reply({embeds: [botImbedMessage]});
                     
                 } else {
-                    const botImbedMessage = new EmbedBuilder()
+                    botImbedMessage = new EmbedBuilder()
                     .setAuthor({name: `${interaction.user.username}, you've run into a problem! 🧐`})
                     .setDescription(new Error().token())
                     .setColor(0xCC0000)
                     .setTimestamp();
-
-                    await interaction.reply({embeds: [botImbedMessage]});   
                 }
+
+                await interaction.reply({content: `<@${user.id}>`, embeds: [botImbedMessage]});
             }),
             
     ],
