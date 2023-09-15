@@ -3,17 +3,21 @@
  * custom error handling/messages
  */
 export class Error {
+    /**
+     * env throws an error if the proper enviornment variables
+     * have not been set
+     * @returns The custom error for env
+     */
     public env(): string {
         return "Please set the required env variables before continuing."
     }
 
+    /**
+     * token throws an error if the users input token
+     * is not valid
+     * @returns The custom error for token
+     */
     public token(): string {
-        return "Your token is not valid, please try again."
+        return "Your **TOKEN** is not valid. Please contact your teacher if the issue persists. 😎"
     }
-
-    // TODO - Make face interface to make everyone life easier?
-    public config(): string {
-        return "Please update your config files."
-    }
-    // TODO
 }

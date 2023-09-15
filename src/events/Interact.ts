@@ -1,10 +1,21 @@
-import fs from 'fs';
 import { PermissionsBitField } from "discord.js";
 
+/**
+ * Interact holds member functions to respond to a /register
+ * command executed by the user
+ */
 export class Interact {
 
+    /**
+     * createRole creates a new role name if the name 
+     * does not exist in the Discord server
+     * @param role The class id located in 'data.json'
+     * @param id The section number given by the user
+     * @param interaction The interaction object from discord.js
+     * @param classType The class type located in 'data.json'
+     * @returns The role id number
+     */
     public createRole = async (role: string, id: string, interaction: any, classType: string) => {
-    
         const roleName = `${classType}${role}-${id}`; 
     
         const newRole = await interaction.guild?.roles.create({
@@ -17,7 +28,14 @@ export class Interact {
         return newRole.id;
     }
     
-    
+    /**
+     * findRole determines if a role exists in the Discord Server
+     * @param role The class id located in 'data.json'
+     * @param id The section number given by the user
+     * @param interaction The interaction object from discord.js
+     * @param classType The class type located in 'data.json'
+     * @returns The role id number
+     */
     public findRole = async (role: string, id:string, interaction: any, classType: string): Promise<string> => {
     
         const doesRoleExist = interaction.guild?.roles.cache.find((r: any) => r.name === `${classType}${role}-${id}`);
@@ -33,7 +51,13 @@ export class Interact {
         return roleId;
     }
     
-    
+
+    /**
+     * giveChannelAccess gives the created/found role access
+     * @param roleId The roles id number obtained from creating/finding the role beforehand
+     * @param interaction The interaction object from discord.js
+     * @param channelName The channels name after creating/finding it beforehand
+     */
     public giveChannelAccess = async (roleId: any, interaction: any, channelName: string) => {
         console.log(roleId, channelName);
     
@@ -42,13 +66,18 @@ export class Interact {
         
         if (channel) {
             await channel.permissionOverwrites.create(roleId, {permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]})
-    
         }
     
     }
     
-    public createChannel = async (channelName: string, interaction: any, classType: string) => {
-    
+    /**
+     * createChannel creates a new channel if not already created
+     * @param channelName The channels name if it exists or not.
+     * @param interaction The interaction object from discord.js
+     * @param classType The class type located in 'data.json'
+     * @returns The channel id number
+     */
+    public createChannel = async (channelName: string, interaction: any, classType: string): Promise<string> => {
         const newChannel = await interaction.guild?.channels.create({
             name: `${classType}-${channelName}`,
             permissionOverwrites: [
@@ -64,6 +93,12 @@ export class Interact {
         return newChannel.id;
     }
     
+    /**
+     * findChannel finds if the current channel exists
+     * @param role The class id located in 'data.json'
+     * @param interaction The interaction object from discord.js
+     * @param classType The class type located in 'data.json'
+     */
     public findChannel = async (role: string, interaction: any, classType: string) => {
         console.log(`${classType}-${role}`);
         const doesChannelExist = interaction.guild?.channels.cache.find((c: any) => c.name === `${classType}-${role}`);
@@ -77,8 +112,6 @@ export class Interact {
         }
     
     }
-    
-    
-    
+
 };
 

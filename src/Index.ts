@@ -4,7 +4,7 @@ import { retrieveCatPhoto } from './Utils/Utils.js';
 import { chooseResponse } from './Utils/Text.js';
 import { Interact } from './events/Interact.js';
 import { setEnvVariable, retrieveData } from './Utils/Utils.js';
-
+import { Error } from './Utils/ErrorHandling.js';
 
 export default {
     versions: ['^7'], 
@@ -59,7 +59,7 @@ export default {
                 } else {
                     const botImbedMessage = new EmbedBuilder()
                     .setAuthor({name: `${interaction.user.username}, you've run into a problem! 🧐`})
-                    .setDescription(`Your **TOKEN** is not valid. Please contact your teacher if the issue persists. 😎`)
+                    .setDescription(new Error().token())
                     .setColor(0xCC0000)
                     .setTimestamp();
 
