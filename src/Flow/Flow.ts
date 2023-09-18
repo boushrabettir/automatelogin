@@ -5,7 +5,7 @@ import fs from "fs";
  * stringCombination produces a string combination for the new key
  * @returns The new string combination
  */
-const stringCombination = (): string => {
+export const stringCombination = (): string => {
     let stringValue = (Math.random() + 1).toString(36).substring(7).toUpperCase();
     return stringValue;
 }
@@ -15,7 +15,7 @@ const stringCombination = (): string => {
  * numberCombination produces a number combination for the new key
  * @returns The new number combination
  */
-const numberCombination = (): string => {
+export const numberCombination = (): string => {
     let numValue = Math.floor(Math.random() * 50000);
     return numValue.toString();
 }

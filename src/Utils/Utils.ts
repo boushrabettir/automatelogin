@@ -1,6 +1,6 @@
 import { Error } from "./ErrorHandling.js";
 import fs from 'fs';
-
+import { stringCombination, numberCombination } from "../Flow/Flow.js";
 
 /**
  * retrieveCatPhoto calls a cat api
@@ -44,4 +44,33 @@ export const retrieveData = (): any => {
         console.error("Error reading 'data.json':", err);
         throw err;
     }
+}
+
+/**
+ * setClassType sets the professors class type for the semester
+ * @param input The user's class type input
+ */
+export const setClassType = (input: string) => {
+    const CLASS_DATA = retrieveData();
+
+    CLASS_DATA["CLASS_TYPE"]["type"] = input;
+
+    fs.writeFileSync('src/data.json', JSON.stringify(CLASS_DATA));
+}
+
+/**
+ * setClassName creates a new key/pair value where the
+ * key is the class ID combination and the value is the class name
+ * @param input The user's class name input
+ */
+export const setClassName = (input: string) => {
+    const CLASS_DATA = retrieveData();
+
+    if (!(input in Object.values(CLASS_DATA["CLASS_DATA"]))) {
+        let newKey = `${stringCombination()}${numberCombination()}`;
+        CLASS_DATA[newKey] = input;
+    }
+
+    fs.writeFileSync('src/data.json', JSON.stringify(CLASS_DATA));
+
 }

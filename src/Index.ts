@@ -126,12 +126,12 @@ export default {
  
                 if (TOKEN  && SECTION && CLASS_DATA && TOKEN in CLASS_DATA["CLASS_DATA"]) {
                     
-                    await new Interact().findChannel(CLASS_DATA["CLASS_DATA"][TOKEN]["classID"], interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
+                    await new Interact().findChannel(CLASS_DATA["CLASS_DATA"][TOKEN], interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
 
-                    let newRoleId = await new Interact().findRole(CLASS_DATA["CLASS_DATA"][TOKEN]["classID"], SECTION, interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
+                    let newRoleId = await new Interact().findRole(CLASS_DATA["CLASS_DATA"][TOKEN], SECTION, interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
                     const member = await interaction.guild?.members.fetch(user);
    
-                    new Interact().giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]["classID"]}`)
+                    new Interact().giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]}`)
 
                     if (!member?.roles.cache.has(newRoleId)) {
                         await member?.roles.add(newRoleId);
@@ -139,7 +139,7 @@ export default {
                     
                     botImbedMessage = new EmbedBuilder()
                         .setAuthor({name: `${interaction.user.username}, you've successfully registered! 💙🧡🤍`})
-                        .setDescription(`You have been given access to **${(CLASS_DATA["CLASS_TYPE"]["type"]).toUpperCase()}-${CLASS_DATA["CLASS_DATA"][TOKEN]["classID"].toUpperCase()}!**\n*If there are any problems, please contact your professor.*`)
+                        .setDescription(`You have been given access to **${(CLASS_DATA["CLASS_TYPE"]["type"]).toUpperCase()}-${CLASS_DATA["CLASS_DATA"][TOKEN].toUpperCase()}!**\n*If there are any problems, please contact your professor.*`)
                         .setColor(0x0099FF)
                         .setImage(await retrieveCatPhoto())
                         .setTimestamp()
