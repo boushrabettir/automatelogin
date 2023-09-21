@@ -1,5 +1,5 @@
 import { Error } from "./ErrorHandling.js";
-import fs from 'fs';
+import * as fs from "fs";
 import { stringCombination, numberCombination } from "../Flow/Flow.js";
 
 /**
