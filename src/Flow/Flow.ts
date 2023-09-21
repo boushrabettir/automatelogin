@@ -1,5 +1,6 @@
 import { retrieveData } from "../Utils/Utils.js";
-import fs from "fs";
+import * as fs from "fs";
+
 
 /**
  * stringCombination produces a string combination for the new key
