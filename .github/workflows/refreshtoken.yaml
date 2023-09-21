@@ -20,7 +20,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Install TypeScript
+        run: npm install -g typescript
+
+      - name: Transpile TypeScript to JavaScript
+        run: tsc src/Flow/Flow.ts
+        
       - name: Run Script
-        run: |
-          cd src/Flow
-          node Flow.ts
+        run: node src/Flow/Flow.js
