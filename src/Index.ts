@@ -136,7 +136,7 @@ export default {
                     let newRoleId = await new Interact().findRole(CLASS_DATA["CLASS_DATA"][TOKEN], SECTION, interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
                     const member = await interaction.guild?.members.fetch(user);
    
-                    new Interact().giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]}`)
+                    await new Interact().giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]}`)
 
                     if (!member?.roles.cache.has(newRoleId)) {
                         await member?.roles.add(newRoleId);
