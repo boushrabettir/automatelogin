@@ -3,7 +3,8 @@ name: Refresh Class Access Tokens
 on:
   schedule:
     - cron: "*/5 * * * *"
-
+  workflow_dispatch: 
+  
 jobs:
   run-script:
     runs-on: ubuntu-latest
