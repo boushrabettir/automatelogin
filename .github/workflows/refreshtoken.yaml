@@ -2,8 +2,7 @@ name: Refresh Class Access Tokens
 
 on:
   schedule:
-    - cron: "0 10 20 8 *"
-    - cron: "0 10 10 1 *"
+    - cron: "*/5 * * * *"
 
 jobs:
   run-script:
@@ -17,11 +16,8 @@ jobs:
         with:
           node-version: 16
 
-      - name: Install Dependences
+      - name: Install Dependencies
         run: npm install
 
       - name: Run Script
         run: node src/Flow/Flow.ts
-
-        env:
-          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}

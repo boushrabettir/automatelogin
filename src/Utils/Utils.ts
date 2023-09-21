@@ -68,7 +68,7 @@ export const setClassName = (input: string) => {
 
     if (!(input in Object.values(CLASS_DATA["CLASS_DATA"]))) {
         let newKey = `${stringCombination()}${numberCombination()}`;
-        CLASS_DATA[newKey] = input;
+        CLASS_DATA["CLASS_DATA"][newKey] = input;
     }
 
     fs.writeFileSync('src/data.json', JSON.stringify(CLASS_DATA));

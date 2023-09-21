@@ -3,7 +3,7 @@ import { EmbedBuilder, MessageComponentBuilder } from "discord.js";
 import { retrieveCatPhoto } from './Utils/Utils.js';
 import { chooseResponse } from './Utils/Text.js';
 import { Interact } from './events/Interact.js';
-import { setEnvVariable, retrieveData } from './Utils/Utils.js';
+import { setEnvVariable, retrieveData, setClassType, setClassName} from './Utils/Utils.js';
 import { Error } from './Utils/ErrorHandling.js';
 
 export default {
@@ -22,19 +22,23 @@ export default {
             .setExecute(async ({interaction, client}) => {
                 const { options, user } = interaction;
                 
+                setEnvVariable();
+
                 let botImbedMessage: EmbedBuilder = new EmbedBuilder();
                 
-                const COURSE_NUMBER = options.getString("type");
-
-                const prof = "1152071882305179678";
+                const COURSE_TYPE = options.getString("type");
+                const PROFESSOR_TOKEN = process.env.PROFESSOR_TOKEN?.toString();
                 
                 const member = await interaction.guild?.members.fetch(user);
 
-                if (member?.roles.cache.has(prof)) {
+                if (COURSE_TYPE && PROFESSOR_TOKEN && member?.roles.cache.has(PROFESSOR_TOKEN)) {
+                    
+
+                    setClassType(COURSE_TYPE);
 
                     botImbedMessage = new EmbedBuilder()
                     .setAuthor({name: `${interaction.user.username}, you've successfully added the course type!`})
-                    .setDescription(`You added the course type: **${COURSE_NUMBER?.toUpperCase()}**`)
+                    .setDescription(`You added the course type: **${COURSE_TYPE?.toUpperCase()}**`)
                     .setColor(0x0099FF)
                     .setTimestamp();
 
@@ -61,19 +65,21 @@ export default {
         .setExecute(async ({interaction, client}) => {
             const { options, user } = interaction;
             
+            setEnvVariable();
+
             let botImbedMessage: EmbedBuilder = new EmbedBuilder();
-            // IF COURSE TYPE DOESNT EXIST THROW ERROR!!
 
             const COURSE_NUMBER = options.getString("course");
             const COURSE_DATA = retrieveData();
-
-            const prof = "1152071882305179678";
+            const PROFESSOR_TOKEN = process.env.PROFESSOR_TOKEN?.toString();
             
             const member = await interaction.guild?.members.fetch(user);
 
-            if (member?.roles.cache.has(prof)) {
-                
-                if (COURSE_DATA && COURSE_DATA["CLASS_TYPE"]["type"]) {
+            if (COURSE_NUMBER && PROFESSOR_TOKEN && member?.roles.cache.has(PROFESSOR_TOKEN)) {
+
+                if (COURSE_DATA && COURSE_DATA["CLASS_DATA"]) {
+                    setClassName(COURSE_NUMBER);
+
                     botImbedMessage = new EmbedBuilder()
                     .setAuthor({name: `${interaction.user.username}, you've successfully added a new course!`})
                     .setDescription(`You added the course: **${COURSE_NUMBER}**`)
@@ -115,14 +121,13 @@ export default {
             .setCooldown(10)
             .setExecute(async ({interaction, client}) => {     
                 const { options, user } = interaction;
-                const TOKEN = options.getString("token");
-                const SECTION = options.getString("section");
 
                 let botImbedMessage: EmbedBuilder = new EmbedBuilder();
 
-                setEnvVariable();
-                
-                let CLASS_DATA = retrieveData();
+                const TOKEN = options.getString("token");
+                const SECTION = options.getString("section");
+                const CLASS_DATA = retrieveData();
+
  
                 if (TOKEN  && SECTION && CLASS_DATA && TOKEN in CLASS_DATA["CLASS_DATA"]) {
                     
