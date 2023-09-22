@@ -3,24 +3,6 @@ import * as fs from "fs";
 import { stringCombination, numberCombination } from "../Flow/Flow.js";
 
 /**
- * retrieveCatPhoto calls a cat api
- * to retrieve a random cat photo 
- * @returns The photo URL from the response data
- */
-export const retrieveCatPhoto = async (): Promise<string> => {
-
-    try {
-        let response = await fetch("https://api.thecatapi.com/v1/images/search?limit=1");
-        let data = await response.json();
-        return data[0].url;
-    } catch (err) {
-        console.error(err);
-        throw err;
-    }
-
-}   
-
-/**
  * setEnvVariable throws an error
  * if any env variables are not set
  */

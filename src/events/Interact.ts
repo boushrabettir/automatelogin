@@ -62,14 +62,10 @@ export class Interact {
         console.log(interaction.guild?.roles.id, channelName, interaction.guild?.roles.everyone);
     
         const channel = interaction.guild?.channels.cache.find((c: any) => c.name == channelName);
-        console.log(channel);
-        // todo figure out stupid permissions
-        if (channel) {
-            await channel.permissionOverwrites.create(roleId, {permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]})
-        }
 
-        console.log(channel.permissions)
-    
+        if (channel) {
+            await channel.permissionOverwrites.create({id: roleId, permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]})
+        }
     }
     
     /**

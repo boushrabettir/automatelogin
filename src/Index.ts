@@ -1,8 +1,7 @@
 import { RecipleModuleScript, SlashCommandBuilder } from 'reciple';
 import { EmbedBuilder, MessageComponentBuilder } from "discord.js";
-import { retrieveCatPhoto } from './Utils/Utils.js';
 import { chooseResponse } from './Utils/Text.js';
-import { Interact } from './events/Interact.js';
+import { Interact } from './Events/Interact.js';
 import { setEnvVariable, retrieveData, setClassType, setClassName} from './Utils/Utils.js';
 import { Error } from './Utils/ErrorHandling.js';
 
@@ -135,18 +134,18 @@ export default {
 
                     let newRoleId = await new Interact().findRole(CLASS_DATA["CLASS_DATA"][TOKEN], SECTION, interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
                     const member = await interaction.guild?.members.fetch(user);
-   
-                    await new Interact().giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]}`)
+
 
                     if (!member?.roles.cache.has(newRoleId)) {
                         await member?.roles.add(newRoleId);
                     }
+
+                    await new Interact().giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]}`)
                     
                     botImbedMessage = new EmbedBuilder()
                         .setAuthor({name: `${interaction.user.username}, you've successfully registered! 💙🧡🤍`})
                         .setDescription(`You have been given access to **${(CLASS_DATA["CLASS_TYPE"]["type"]).toUpperCase()}-${CLASS_DATA["CLASS_DATA"][TOKEN].toUpperCase()}!**\n*If there are any problems, please contact your professor.*`)
                         .setColor(0x0099FF)
-                        .setImage(await retrieveCatPhoto())
                         .setTimestamp()
                         .setFooter({ text: chooseResponse() });
                     
@@ -166,11 +165,6 @@ export default {
 
     // Module resolved logic here (Bot not logged in)
     onStart(client) {
-        const CHANNEL_ID = JSON.parse(process.env.CLASS_DATA || '{"token": []}')[2];
-        const channel = client.channels.cache.get(CHANNEL_ID);
-        console.log(channel);
-        let message: string = "# Welcome to the main hub of your classes!\n **To Get Started**\n- `/register [TOKEN] [SECTION]` (E.g. /register ABC123 01)\n If you do NOT have your token, please contact your teacher to retrieve it."
-        if (channel && channel.isTextBased()) channel.send(message)
         return true;
     },
 
