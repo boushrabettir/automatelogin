@@ -58,13 +58,13 @@ export class Interact {
      * @param interaction The interaction object from discord.js
      * @param channelName The channels name after creating/finding it beforehand
      */
-    public giveChannelAccess = async (roleId: any, interaction: any, channelName: string) => {
+    public giveChannelAccess = async (roleId: string, interaction: any, channelName: string) => {
         console.log(interaction.guild?.roles.id, channelName, interaction.guild?.roles.everyone);
     
         const channel = interaction.guild?.channels.cache.find((c: any) => c.name == channelName);
 
         if (channel) {
-            await channel.permissionOverwrites.create({id: roleId, permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]})
+            await channel.permissionOverwrites.create(roleId, {permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]})
         }
     }
     
