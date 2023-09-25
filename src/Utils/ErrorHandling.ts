@@ -38,4 +38,13 @@ export class Error {
     public incorrectRole(): string {
         return "You do not have the permissions for this role."
     }
+
+    /**
+     * takenRole throws an error if the user registers
+     * for the same class/role twice
+     * @returns The custom error for duplicate register request
+     */
+    public takenRole(): string {
+        return "If you don't have access please **contact your professor**. 😎"
+    }
 }

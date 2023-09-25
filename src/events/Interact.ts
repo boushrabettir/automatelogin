@@ -1,4 +1,4 @@
-import { PermissionsBitField } from "discord.js";
+import { PermissionsBitField, TextChannel, Permissions  } from "discord.js";
 
 /**
  * Interact holds member functions to respond to a /register
@@ -21,11 +21,15 @@ export class Interact {
         const newRole = await interaction.guild?.roles.create({
             name: roleName,
             color: `#${Math.floor(Math.random()*16777215).toString(16)}`,
-            permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
+            permissions: [PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages],
         });
     
         await interaction.guild?.roles.fetch();
+
+        console.log("Created new role in createRole function", newRole);
         return newRole.id;
+
+        
     }
     
     /**
@@ -40,7 +44,6 @@ export class Interact {
     
         const doesRoleExist = interaction.guild?.roles.cache.find((r: any) => r.name === `${classType}${role}-${id}`);
         let roleId: string = "";
-        
     
         if (!doesRoleExist) {
             roleId = await this.createRole(role, id, interaction, classType);
@@ -59,14 +62,24 @@ export class Interact {
      * @param channelName The channels name after creating/finding it beforehand
      */
     public giveChannelAccess = async (roleId: string, interaction: any, channelName: string) => {
-        console.log(interaction.guild?.roles.id, channelName, interaction.guild?.roles.everyone);
-    
-        const channel = interaction.guild?.channels.cache.find((c: any) => c.name == channelName);
-
+        const channel = interaction.guild?.channels.cache.find((c: any) => c.name === channelName);
+        
         if (channel) {
-            await channel.permissionOverwrites.create(roleId, {permissions: [PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.ViewChannel]})
+            // Find the role by ID
+            const role = interaction.guild?.roles.cache.get(roleId);
+    
+            if (role) {
+                channel.permissionOverwrites.create(role, {
+                    ViewChannel: true,
+                    SendMessages: true
+                })
+                .catch((error: any) => {
+                    console.error(`Error granting access to ${roleId} for ${channelName}: ${error}`);
+                });
+            }
         }
     }
+    
     
     /**
      * createChannel creates a new channel if not already created
@@ -87,7 +100,7 @@ export class Interact {
         });
     
         await interaction.guild?.roles.fetch();
-    
+        console.log("Channel created");
         return newChannel.id;
     }
     

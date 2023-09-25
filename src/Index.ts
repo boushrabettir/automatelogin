@@ -131,23 +131,37 @@ export default {
                 if (TOKEN  && SECTION && CLASS_DATA && TOKEN in CLASS_DATA["CLASS_DATA"]) {
                     
                     await new Interact().findChannel(CLASS_DATA["CLASS_DATA"][TOKEN], interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
-
+                    
                     let newRoleId = await new Interact().findRole(CLASS_DATA["CLASS_DATA"][TOKEN], SECTION, interaction, CLASS_DATA["CLASS_TYPE"]["type"]);
-                    const member = await interaction.guild?.members.fetch(user);
+                    
+                    console.log("New role id", newRoleId);
 
+                    const member = await interaction.guild?.members.fetch(user);
 
                     if (!member?.roles.cache.has(newRoleId)) {
                         await member?.roles.add(newRoleId);
-                    }
+                    } else {
+                        botImbedMessage = new EmbedBuilder()
+                        .setAuthor({name: `${interaction.user.username}, you've already registered! 💙🧡🤍`})
+                        .setDescription(new Error().takenRole())
+                        .setColor(0x0099FF)
+                        .setTimestamp()
+                        .setFooter({ text: chooseResponse() });
 
+                        await interaction.reply({content: `<@${interaction.user.id}>`, embeds: [botImbedMessage]});
+                        return;
+                    }
+       
                     await new Interact().giveChannelAccess(newRoleId, interaction, `${CLASS_DATA["CLASS_TYPE"]["type"]}-${CLASS_DATA["CLASS_DATA"][TOKEN]}`)
-                    
+                    console.log("Given access is done!!");
+                    console.log("Making message....");
                     botImbedMessage = new EmbedBuilder()
                         .setAuthor({name: `${interaction.user.username}, you've successfully registered! 💙🧡🤍`})
                         .setDescription(`You have been given access to **${(CLASS_DATA["CLASS_TYPE"]["type"]).toUpperCase()}-${CLASS_DATA["CLASS_DATA"][TOKEN].toUpperCase()}!**\n*If there are any problems, please contact your professor.*`)
                         .setColor(0x0099FF)
                         .setTimestamp()
                         .setFooter({ text: chooseResponse() });
+                    console.log("Done making message....")
                     
                 } else {
                     botImbedMessage = new EmbedBuilder()
@@ -156,8 +170,9 @@ export default {
                     .setColor(0xCC0000)
                     .setTimestamp();
                 }
-
+                console.log("Sending message....");
                 await interaction.reply({content: `<@${user.id}>`, embeds: [botImbedMessage]});
+                console.log("Done sending message....");
             }),
             
     ],
