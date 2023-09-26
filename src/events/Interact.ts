@@ -1,4 +1,4 @@
-import { PermissionsBitField, TextChannel, Permissions  } from "discord.js";
+import { PermissionsBitField } from "discord.js";
 
 /**
  * Interact holds member functions to respond to a /register
