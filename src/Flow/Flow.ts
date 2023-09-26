@@ -48,3 +48,6 @@ export const setNewKeys = () => {
 
     fs.writeFileSync('src/data.json', JSON.stringify(CLASS_DATA));
 }
+
+
+setNewKeys();
