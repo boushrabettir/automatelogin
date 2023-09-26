@@ -19,6 +19,10 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-        
+
+      - name: Build TypeScript
+        run: npx tsc
+        working-directory: ./src/Flow   # Adjust the path if needed
+
       - name: Run Script
-        run: node src/Flow/Flow.ts
+        run: node ./src/Flow/Flow.js
