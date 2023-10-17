@@ -2,7 +2,7 @@ import { RecipleModuleScript, SlashCommandBuilder } from 'reciple';
 import { EmbedBuilder, MessageComponentBuilder } from "discord.js";
 import { chooseResponse } from './Utils/Text.js';
 import { Interact } from './Events/Interact.js';
-import { setEnvVariable, retrieveData, setClassType, setClassName} from './Utils/Utils.js';
+import { setEnvVariable, retrieveData, setClassType, setClassName } from './Utils/Utils.js';
 import { Error } from './Utils/ErrorHandling.js';
 
 export default {
@@ -78,7 +78,7 @@ export default {
 
                 if (COURSE_DATA && COURSE_DATA["CLASS_DATA"]) {
                     setClassName(COURSE_NUMBER);
-
+                    
                     botImbedMessage = new EmbedBuilder()
                     .setAuthor({name: `${interaction.user.username}, you've successfully added a new course!`})
                     .setDescription(`You added the course: **${COURSE_NUMBER}**`)
@@ -189,4 +189,3 @@ export default {
     // Unload logic here
     onUnload({ reason, client }) {}
 } satisfies RecipleModuleScript;
-
